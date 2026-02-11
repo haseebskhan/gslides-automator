@@ -171,6 +171,54 @@ const textColorSlides = (color: string, toggle: boolean) => {
   return
 }
 
+
+export const textColorHex = (color: string, toggle: boolean) => {
+  let i = 0
+  let curr: HTMLElement | null = null
+  while ((curr = document.getElementById(`docs-material-colorpalette-cell-${i}`)?.firstChild as HTMLElement | null)) {
+    if (curr.title.includes(color)) {
+      if (
+        toggle &&
+        curr.parentElement &&
+        curr.parentElement.classList.contains('docs-material-colorpalette-cell-selected')
+      ) {
+        // Reset to black
+        const blackEl = document.getElementById(`docs-material-colorpalette-cell-${getColorMapValue('black', 'text')}`)
+        if (blackEl) clickEl(blackEl)
+      } else {
+        clickEl(curr)
+      }
+      return
+    }
+    i++
+  }
+  
+  // If it's not in the custom list, use the custom color picker
+  const customElement = document.getElementById(`docs-material-colorpalette-cell-${i - 2}`)
+  if (!customElement) {
+    throw new Error('unable to find custom text color button')
+  }
+  clickEl(customElement)
+  
+  // Enter hex value
+  const hexTextBox = document.getElementsByClassName('docs-material-hsv-color-picker-input')
+  if (!hexTextBox.length) {
+    throw new Error('unable to find hex text box')
+  }
+  const htb = hexTextBox[0] as HTMLInputElement
+  htb.value = color
+  htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
+  
+  // Click OK
+  const buttons = document.getElementsByClassName('docs-material-button-content')
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].innerHTML === 'OK') {
+      clickEl(buttons[i] as HTMLElement)
+      break
+    }
+  }
+}
+
 export const textColor = (color: string, toggle: boolean = false) => {
   if (isSlides()) {
     textColorSlides(color, toggle)
@@ -181,6 +229,13 @@ export const textColor = (color: string, toggle: boolean = false) => {
     throw new Error('unable to change text color: no dropdown element found')
   }
   clickEl(dropdownElement)
+  
+  // Check if it's a hex code
+  if (color.startsWith('#')) {
+    textColorHex(color, toggle)
+    return
+  }
+
   const colorNumber = getColorMapValue(color, 'text')
   // console.log(`color number: ${colorNumber}`)
   const textColorEl = document.getElementById(`docs-material-colorpalette-cell-${colorNumber}`)
