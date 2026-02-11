@@ -293,7 +293,7 @@ const App: FC = () => {
             <Text ml='15px' fontSize='14px' color='#777'>
         Vibe coded by Haseeb S Khan
       </Text>
-      </Flex>Flex>
+      </Flex>
   )
 }
 
