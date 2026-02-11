@@ -43,11 +43,11 @@ export const highlightHex = (color: string, toggle: boolean) => {
     throw new Error('unable to find hex text box')
   }
   const htb = hexTextBox[0] as HTMLInputElement
-  htb.value = color
   htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
 
   // Click OK
-  htb.value = color.startsWith('#') ? color : '#' + color  for (let i = 0; i < buttons.length; i++) {
+  htb.value = color.startsWith('#') ? color : '#' + color  
+      for (let i = 0; i < buttons.length; i++) {
     if (buttons[i].innerHTML === 'OK') {
       clickEl(buttons[i] as HTMLElement)
       break
@@ -209,7 +209,8 @@ export const textColorHex = (color: string, toggle: boolean) => {
     throw new Error('unable to find hex text box')
   }
   const htb = hexTextBox[0] as HTMLInputElement
-  htb.value = color.startsWith('#') ? color : '#' + color  htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
+  htb.value = color.startsWith('#') ? color : '#' + color 
+      htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
   
   // Click OK
   const buttons = document.getElementsByClassName('docs-material-button-content')
