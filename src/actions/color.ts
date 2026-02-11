@@ -47,8 +47,7 @@ export const highlightHex = (color: string, toggle: boolean) => {
   htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
 
   // Click OK
-  const buttons = document.getElementsByClassName('docs-material-button-content')
-  for (let i = 0; i < buttons.length; i++) {
+  htb.value = color.startsWith('#') ? color : '#' + color  for (let i = 0; i < buttons.length; i++) {
     if (buttons[i].innerHTML === 'OK') {
       clickEl(buttons[i] as HTMLElement)
       break
@@ -121,6 +120,11 @@ export const highlight = (color: string, toggle: boolean = false) => {
     return
   }
   if (color.startsWith('#')) {
+      // Also check if it looks like a hex code without #
+      if (/^[0-9A-Fa-f]{6}$/.test(color)) {
+            highlightHex(color, toggle)
+            return
+          }
     highlightHex(color, toggle)
     return
   }
@@ -194,8 +198,7 @@ export const textColorHex = (color: string, toggle: boolean) => {
   }
   
   // If it's not in the custom list, use the custom color picker
-  const customElement = document.getElementById(`docs-material-colorpalette-cell-${i - 2}`)
-  if (!customElement) {
+  const customElement = document.querySelector('.docs-icon-add-item')?.parentElement?.parentElement  if (!customElement) {
     throw new Error('unable to find custom text color button')
   }
   clickEl(customElement)
@@ -206,8 +209,7 @@ export const textColorHex = (color: string, toggle: boolean) => {
     throw new Error('unable to find hex text box')
   }
   const htb = hexTextBox[0] as HTMLInputElement
-  htb.value = color
-  htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
+  htb.value = color.startsWith('#') ? color : '#' + color  htb.dispatchEvent(new Event('keyup', { bubbles: true })) // Tell Docs that the value changed
   
   // Click OK
   const buttons = document.getElementsByClassName('docs-material-button-content')
@@ -232,6 +234,11 @@ export const textColor = (color: string, toggle: boolean = false) => {
   
   // Check if it's a hex code
   if (color.startsWith('#')) {
+      // Also check if it looks like a hex code without #
+      if (/^[0-9A-Fa-f]{6}$/.test(color)) {
+            textColorHex(color, toggle)
+            return
+          }
     textColorHex(color, toggle)
     return
   }
