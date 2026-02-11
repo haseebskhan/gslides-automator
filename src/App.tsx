@@ -173,8 +173,7 @@ const App: FC = () => {
       <Box>
         <Box bg='docsBlue' p='5px'>
           <Heading color='white' ml='5px'>
-            Docs Hotkey
-          </Heading>
+                </Heading>
         </Box>
         {commands && (
           <>
@@ -291,15 +290,10 @@ const App: FC = () => {
           ))}
         </Box>
       </Box>
-      <Flex w='100%' justifyContent='center' mb='10px'>
-        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://docs-hotkey.zackmurry.com'>
-          Help
-        </Link>
-        <Link ml='15px' fontSize='14px' color='#777' isExternal href='https://ko-fi.com/zackmurry'>
-          Donate
-        </Link>
-      </Flex>
-    </Flex>
+            <Text ml='15px' fontSize='14px' color='#777'>
+        Vibe coded by Haseeb S Khan
+      </Text>
+      </Flex>Flex>
   )
 }
 
